@@ -41,3 +41,23 @@ Start the web server:
 ```
 
 The server is now running on http://localhost:8000.
+
+## Admin interface
+
+http://localhost:8000/admin/
+
+## Create an API user
+
+To create a user, log in to the admin interface and create a user, or use the shell:
+
+```
+./manage.py createsuperuser
+```
+
+Your API key can be found at http://localhost:8000/admin/tastypie/apikey/.
+
+## Make an API request
+
+You'll need to create a user and an API key.
+
+Then, you can GET and POST to http://localhost:8000/api/v1/file/?username=foo\&api_key=bar.
