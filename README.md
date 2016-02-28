@@ -1,5 +1,14 @@
 # rsync file dump service
 
+## Create a file storage endpoint
+
+```
+# Either create a directory
+mkdir files
+# Or, symlink into another directory
+ln -s /path/to/storage files
+```
+
 ## Development environment
 
 Set up a virtualenv and install the dependencies:
