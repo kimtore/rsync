@@ -14,11 +14,17 @@ import uuid
 
 class File(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    slug = models.CharField(max_length=64, default=web.core.random_slug_default_length, editable=False)
+    slug = models.CharField(max_length=64, default=web.core.random_slug_default_length, editable=False, unique=True)
     author = models.ForeignKey(settings.AUTH_USER_MODEL)
     file = models.FileField(upload_to=web.core.get_file_path)
     created = models.DateTimeField(auto_now_add=True)
     expiry = models.DateTimeField(default=web.core.default_expiry, blank=True)
+
+    def uri(self):
+        """
+        @returns The URI of this file, which can be used to retrieve it using a redirect.
+        """
+        return re.sub(r'^%s' % settings.UPLOAD_BASE_DIR, '', self.file.name)
 
     def delete_file(self):
         base_path = os.path.dirname(self.file.name)
