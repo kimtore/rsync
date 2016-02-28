@@ -3,6 +3,9 @@ from __future__ import unicode_literals
 from django.db import models
 from django.conf import settings
 
+import django.db.models.signals
+import django.dispatch.dispatcher
+
 import web.core
 
 import re
@@ -17,5 +20,13 @@ class File(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     expiry = models.DateTimeField(default=web.core.default_expiry, blank=True)
 
+    def delete_file(self):
+        return self.file.delete()
+
     def __unicode__(self):
         return self.file.name
+
+
+@django.dispatch.dispatcher.receiver(django.db.models.signals.post_delete, sender=File)
+def file_delete(sender, instance, **kwargs):
+    instance.delete_file()

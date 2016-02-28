@@ -10,7 +10,7 @@ import web.core.api.authorization
 class FileResource(tastypie.resources.ModelResource):
     class Meta:
         queryset = web.core.models.File.objects.all()
-        allowed_methods = ['get', 'post']
+        allowed_methods = ['get', 'post', 'delete']
         always_return_data = True
         authentication = tastypie.authentication.MultiAuthentication(
             tastypie.authentication.SessionAuthentication(),
