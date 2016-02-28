@@ -7,4 +7,4 @@ class FileAdmin(admin.ModelAdmin):
     list_display = ['slug', 'file', 'author', 'created', 'expiry']
     readonly_fields = ['id', 'slug']
     ordering = ['-created']
-    fields = ['file', 'expiry']
+    fields = ['author', 'file', 'expiry']
