@@ -6,6 +6,6 @@ setup(
     packages = find_packages(),
     install_requires = [
         'django==1.9.2',
-        'django-tastypie',
+        'django-tastypie==0.13.3',
     ]
 )
