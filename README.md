@@ -13,8 +13,21 @@ python setup.py develop
 
 ## Running the development server
 
+You need a `local_settings.py` with local development settings:
+
+```
+cp web/local_settings.py.example web/local_settings.py
+```
+
+Run database migrations:
+
 ```
 ./manage.py migrate
+```
+
+Start the web server:
+
+```
 ./manage.py runserver
 ```
 
