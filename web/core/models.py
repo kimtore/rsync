@@ -21,7 +21,9 @@ class File(models.Model):
     expiry = models.DateTimeField(default=web.core.default_expiry, blank=True)
 
     def delete_file(self):
-        return self.file.delete()
+        base_path = os.path.dirname(self.file.name)
+        os.unlink(self.file.name)
+        os.rmdir(base_path)
 
     def __unicode__(self):
         return self.file.name
