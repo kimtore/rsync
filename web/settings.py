@@ -125,7 +125,7 @@ EXPIRY_TIME = 86400
 FILES_DIR = '/files/'
 
 # Base filesystem location for uploaded files
-UPLOAD_BASE_DIR = os.path.join(BASE_DIR, FILES_DIR)
+UPLOAD_BASE_DIR = os.path.join(BASE_DIR, FILES_DIR.strip('/'))
 
 # Slug length for random IDs. Max length 64 characters.
 SLUG_LENGTH = 11
