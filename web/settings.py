@@ -121,8 +121,11 @@ STATIC_URL = '/static/'
 # Default expiry time for uploaded files, in seconds
 EXPIRY_TIME = 86400
 
+# Webserver path to hosted files, relative to web root
+FILES_DIR = '/files/'
+
 # Base filesystem location for uploaded files
-UPLOAD_BASE_DIR = os.path.join(BASE_DIR, 'files')
+UPLOAD_BASE_DIR = os.path.join(BASE_DIR, FILES_DIR)
 
 # Slug length for random IDs. Max length 64 characters.
 SLUG_LENGTH = 11
