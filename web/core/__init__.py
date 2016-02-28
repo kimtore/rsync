@@ -28,6 +28,9 @@ def default_expiry():
     return datetime.datetime.now() + datetime.timedelta(seconds=settings.EXPIRY_TIME)
 
 def random_slug(length):
+    """
+    @returns A random slug consisting of letters and digits.
+    """
     return ''.join(random.SystemRandom().choice(
         string.ascii_uppercase + \
         string.ascii_lowercase + \
@@ -35,4 +38,7 @@ def random_slug(length):
     ) for _ in range(length))
 
 def random_slug_default_length():
+    """
+    @returns A random slug of SLUG_LENGTH consisting of letters and digits.
+    """
     return random_slug(settings.SLUG_LENGTH)
