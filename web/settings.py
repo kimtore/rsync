@@ -130,6 +130,9 @@ UPLOAD_BASE_DIR = os.path.join(BASE_DIR, FILES_DIR.strip('/'))
 # Slug length for random IDs. Max length 64 characters.
 SLUG_LENGTH = 11
 
+# Site location as seen by the outside
+SITE_URL = 'http://localhost:8000'
+
 try:
     from local_settings import *
 except ImportError:

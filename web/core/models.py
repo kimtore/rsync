@@ -24,8 +24,14 @@ class File(models.Model):
         """
         @returns The URI of this file, which can be used to retrieve it using a redirect.
         """
-        filename = re.sub(r'^%s' % settings.UPLOAD_BASE_DIR, '', self.file.name)
+        filename = re.sub(r'^%s' % settings.UPLOAD_BASE_DIR, '', self.file.name).lstrip('/')
         return os.path.join(settings.FILES_DIR, filename)
+
+    def url(self):
+        """
+        @returns The short URL of this file, including the protocol and domain.
+        """
+        return os.path.join(settings.SITE_URL, self.slug)
 
     def delete_file(self):
         base_path = os.path.dirname(self.file.name)

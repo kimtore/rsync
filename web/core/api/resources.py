@@ -8,6 +8,8 @@ import web.core.models
 import web.core.api.authorization
 
 class FileResource(tastypie.resources.ModelResource):
+    url = tastypie.fields.CharField(attribute='url', readonly=True)
+
     class Meta:
         queryset = web.core.models.File.objects.all()
         allowed_methods = ['get', 'post', 'delete']
