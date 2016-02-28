@@ -119,6 +119,12 @@ STATIC_URL = '/static/'
 # Default expiry time for uploaded files, in seconds
 EXPIRY_TIME = 86400
 
+# Base filesystem location for uploaded files
+UPLOAD_BASE_DIR = os.path.join(BASE_DIR, 'files')
+
+# Slug length for random IDs. Max length 64 characters.
+SLUG_LENGTH = 11
+
 try:
     from local_settings import *
 except ImportError:

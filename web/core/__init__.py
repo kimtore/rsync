@@ -1,21 +1,10 @@
 import os
 import re
-import uuid
 import datetime
+import random
+import string
 
 from django.conf import settings
-
-def uuid2slug(uuidstring):
-    """
-    @brief Convert an UUID object to a short, reversible string slug.
-    """
-    return uuidstring.bytes.encode('base64').rstrip('=\n').replace('/', '_')
-
-def slug2uuid(slug):
-    """
-    @brief Convert a string slug into an UUID object.
-    """
-    return uuid.UUID(bytes=(slug + '==').replace('_', '/').decode('base64'))
 
 def clean_filename(filename):
     """
@@ -28,8 +17,7 @@ def get_file_path(instance, filename):
     @returns A randomly generated path to file uploaded through a Django FileField.
     """
     filename = clean_filename(filename)
-    rand = uuid2slug(uuid.uuid4())
-    path = os.path.realpath(os.path.join(settings.BASE_DIR, 'files', rand, filename))
+    path = os.path.realpath(os.path.join(settings.UPLOAD_BASE_DIR, instance.slug, filename))
     return path
 
 def default_expiry():
@@ -38,3 +26,13 @@ def default_expiry():
     now, according to the EXPIRY_TIME setting.
     """
     return datetime.datetime.now() + datetime.timedelta(seconds=settings.EXPIRY_TIME)
+
+def random_slug(length):
+    return ''.join(random.SystemRandom().choice(
+        string.ascii_uppercase + \
+        string.ascii_lowercase + \
+        string.digits
+    ) for _ in range(length))
+
+def random_slug_default_length():
+    return random_slug(settings.SLUG_LENGTH)
