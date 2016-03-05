@@ -26,8 +26,10 @@ v1_api = tastypie.api.Api(api_name='v1')
 v1_api.register(web.core.api.resources.FileResource())
 
 urlpatterns = [
+    url(r'^$', web.core.views.frontend),
     url(r'^admin/', admin.site.urls),
     url(r'^api/', include(v1_api.urls)),
+    url(r'^upload/.*$', web.core.views.frontend),
     url(r'^(?P<slug>([\w\d]+))$', web.core.views.redirect),
     url(r'^(?P<slug>([\w\d]+))/(?P<filename>(.+))$', web.core.views.serve),
 ]
