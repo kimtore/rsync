@@ -7,5 +7,6 @@ setup(
     install_requires = [
         'django==1.9.2',
         'django-tastypie==0.13.3',
+        'django-cors-headers==1.1.0',
     ]
 )
