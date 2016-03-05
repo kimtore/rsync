@@ -1,0 +1,22 @@
+{% extends "core/base.html" %}
+
+{% block content %}
+
+    {% if request.method == "POST" %}
+        <div>Invalid username or password.</div>
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+        <div>
+            <label for="username">Username</label>
+            <input type="text" name="username" />
+        </div>
+        <div>
+            <label for="password">Password</label>
+            <input type="password" name="password" />
+        </div>
+        <button type="submit">Login</button>
+    </form>
+
+{% endblock %}
