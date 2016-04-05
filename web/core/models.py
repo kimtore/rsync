@@ -35,8 +35,10 @@ class File(models.Model):
 
     def delete_file(self):
         base_path = os.path.dirname(self.file.name)
-        os.unlink(self.file.name)
-        os.rmdir(base_path)
+        if os.path.exists(self.file.name):
+            os.unlink(self.file.name)
+        if os.path.exists(base_path):
+            os.rmdir(base_path)
 
     def __unicode__(self):
         return self.file.name
