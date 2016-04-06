@@ -1,0 +1,27 @@
+.dragOver {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: rgba(100, 100, 100, 0.5);
+  border: 1em dashed white;
+  display: table;
+}
+
+.dragOverContent {
+  display: table-cell;
+  text-align: center;
+  vertical-align: middle;
+  font-size: 10em;
+  color: white;
+  line-height: 100%;
+}
+
+.copyToClipboard {
+  cursor: pointer;
+}
+
+body {
+  margin: 1em;
+}

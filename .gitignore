@@ -70,3 +70,5 @@ target/
 
 #Ipython Notebook
 .ipynb_checkpoints
+
+web/core/static/dist/
