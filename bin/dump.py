@@ -2,7 +2,7 @@
 #
 # Installation and setup:
 #
-#   apt-get install python3-dateutil python3-pyperclip
+#   apt-get install python3-requests python3-dateutil python3-pyperclip
 #
 # To use this script, insert the following into your ~/.netrc file and chmod it to 600:
 #
@@ -12,7 +12,7 @@
 #
 # Then, upload files with:
 #
-#   /path/to/dump.py --url https://domain.com /path/to/file
+#   /path/to/dump.py --url https://example.com /path/to/file
 #
 
 HAS_PYPERCLIP = False
