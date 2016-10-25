@@ -6,13 +6,13 @@
 #
 # To use this script, insert the following into your ~/.netrc file and chmod it to 600:
 #
-#   machine domain.com
+#   machine example.com
 #   login YOUR_USER_NAME
 #   password YOUR_API_KEY
 #
 # Then, upload files with:
 #
-#   /path/to/dump.py --url https://example.com /path/to/file
+#   /path/to/dump.py --url https://example.com /path/to/file [/path/to/more/files] [...]
 #
 
 HAS_PYPERCLIP = False
@@ -24,6 +24,7 @@ import requests
 import argparse
 import dateutil.parser
 import netrc
+
 
 try:
     import pyperclip
@@ -39,6 +40,7 @@ def valid_date(s):
         msg = "Not a valid date: '{0}'.".format(s)
         raise argparse.ArgumentTypeError(msg)
 
+
 def sizeof_fmt(num, suffix='B'):
     for unit in ['','Ki','Mi','Gi','Ti','Pi','Ei','Zi']:
         if abs(num) < 1024.0:
@@ -46,14 +48,16 @@ def sizeof_fmt(num, suffix='B'):
         num /= 1024.0
     return "%.1f%s%s" % (num, 'Yi', suffix)
 
+
 def get_parser():
     parser = argparse.ArgumentParser()
-    parser.add_argument('file', help='File to upload')
+    parser.add_argument('file', nargs='+', help='File to upload')
     parser.add_argument('--url', help='Base path to rsync web service', type=str, required=True)
     parser.add_argument('--expiry', help='Expiry date of file', type=valid_date)
     if HAS_PYPERCLIP:
         parser.add_argument('--no-clipboard', help='Do not copy URL to clipboard', action='store_true')
     return parser
+
 
 def get_authenticated_url(url):
     netrc_file = netrc.netrc()
@@ -66,23 +70,21 @@ def get_authenticated_url(url):
         'api_key': api_key,
     }
 
-if __name__ == '__main__':
-    parser = get_parser()
-    args = parser.parse_args()
-    url = get_authenticated_url(args.url)
 
-    size = sizeof_fmt(os.stat(args.file).st_size)
-
-    files = {'file': open(args.file, 'rb')}
-
-    sys.stderr.write("Uploading '%s' (%s)\n" % (args.file, size))
-
+def upload_file(url, path, expiry=None):
+    """!
+    @returns str URL to uploaded file.
+    """
     data = {}
-    if args.expiry:
-        data['expiry'] = args.expiry.strftime('%Y-%m-%dT%H:%M:%SZ')
+    if expiry:
+        data['expiry'] = expiry.strftime('%Y-%m-%dT%H:%M:%SZ')
+
+    size = sizeof_fmt(os.stat(path).st_size)
+    files = {'file': open(path, 'rb')}
+
+    sys.stderr.write("Uploading '%s' (%s)\n" % (path, size))
 
     response = requests.post(url, data, files=files)
-
     response.raise_for_status()
 
     content = json.loads(response.text)
@@ -90,5 +92,18 @@ if __name__ == '__main__':
     sys.stdout.write("URL: %s\n" % content['url'])
     sys.stderr.write("Expires: %s\n" % content['expiry'])
 
+    return content['url']
+
+
+if __name__ == '__main__':
+    parser = get_parser()
+    args = parser.parse_args()
+    url = get_authenticated_url(args.url)
+
+    uploaded_urls = []
+    for path in args.file:
+        uploaded_urls += [upload_file(url, path, expiry=args.expiry)]
+
     if HAS_PYPERCLIP and not args.no_clipboard:
-        pyperclip.copy(content['url'])
+        urls = '\n'.join(uploaded_urls)
+        pyperclip.copy(urls)
