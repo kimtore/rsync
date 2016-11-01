@@ -3,7 +3,7 @@ const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = {
-  devtool: 'cheap-module-eval-source-map',
+  devtool: 'cheap-module-source-map',
   entry: [
     'es5-shim',
     'babel-polyfill',
@@ -34,14 +34,12 @@ module.exports = {
       {
         test: /\.scss$/,
         loaders: [ 'style', 'css', 'sass' ],
-        include: path.join(__dirname, 'src/sass'),
-        exclude: /(node_modules|bower_components)/
+        include: path.join(__dirname, 'src/sass')
       },
       {
         test: /\.js$/,
         loader: 'babel',
-        include: path.join(__dirname, 'src/frontend'),
-        exclude: /(node_modules|bower_components)/
+        include: path.join(__dirname, 'src/frontend')
       }
     ]
   }

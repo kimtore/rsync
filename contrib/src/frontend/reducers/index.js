@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux'
-import { routerReducer } from 'react-router-redux'
 import uploads from './uploads'
+import finishedUploads from './finishedUploads'
 
 const rootReducer = combineReducers({
   uploads,
-  routing: routerReducer
+  finishedUploads
 })
 
 export default rootReducer

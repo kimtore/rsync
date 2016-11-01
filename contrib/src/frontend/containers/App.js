@@ -7,33 +7,35 @@ import FinishedUploads from '../components/FinishedUploads'
 import Uploads from '../components/Uploads'
 import Dropzone from '../components/Dropzone'
 
-const App = React.createClass({
-  propTypes: {
-    dispatch: PropTypes.func.isRequired,
-    uploadActions: PropTypes.object.isRequired,
-    finishedUploadActions: PropTypes.object.isRequired,
-    uploads: PropTypes.object.isRequired,
-    routing: PropTypes.object.isRequired
-  },
+class App extends React.Component {
   componentWillMount () {
     this.props.finishedUploadActions.getFinishedUploads()
-  },
+  }
+
   render () {
+    const { uploadActions, uploads, finishedUploads } = this.props
     return (
       <div>
-        <Dropzone uploadFile={this.props.uploadActions.uploadFile}/>
-        <Uploads dispatch={this.props.dispatch} uploads={this.props.uploads.uploads}/>
-        <FinishedUploads dispatch={this.props.dispatch} finishedUploads={this.props.uploads.finishedUploads}
-                         finishedUploadActions={this.props.finishedUploadActions}/>
+        <Dropzone uploadFile={uploadActions.uploadFile} />
+        <Uploads uploads={uploads} />
+        <FinishedUploads finishedUploads={finishedUploads} />
       </div>
     )
   }
-})
+}
+
+App.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+  uploadActions: PropTypes.object.isRequired,
+  finishedUploadActions: PropTypes.object.isRequired,
+  uploads: PropTypes.array.isRequired,
+  finishedUploads: PropTypes.array.isRequired
+}
 
 function mapStateToProps (state) {
   return {
-    routing: state.routing,
-    uploads: state.uploads
+    uploads: state.uploads,
+    finishedUploads: state.finishedUploads
   }
 }
 

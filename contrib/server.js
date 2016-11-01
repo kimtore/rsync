@@ -17,7 +17,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 app.use(express.static(`${__dirname}/public`))
 
-app.get('*', function (request, response) {
+app.get('*', (request, response) => {
   response.sendFile(path.resolve(__dirname, 'public', 'dist', 'index.html'))
 })
 

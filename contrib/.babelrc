@@ -5,8 +5,29 @@
     "react"
   ],
   "plugins": [
-    [
-      "array-includes"
-    ]
-  ]
+    "array-includes",
+    "transform-decorators-legacy"
+  ],
+  "env": {
+    "development": {
+      "plugins": [
+        [
+          "react-transform",
+          {
+            "transforms": [
+              {
+                "transform": "react-transform-hmr",
+                "imports": [
+                  "react"
+                ],
+                "locals": [
+                  "module"
+                ]
+              }
+            ]
+          }
+        ]
+      ]
+    }
+  }
 }

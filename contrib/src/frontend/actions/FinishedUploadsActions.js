@@ -10,18 +10,14 @@ export function requestFinishedUploads () {
 export function receiveFinishedUploads (finishedUploads) {
   return {
     type: types.RECEIVE_FINISHED_UPLOADS,
-    payload: {
-      finishedUploads: finishedUploads
-    }
+    payload: { finishedUploads }
   }
 }
 
 export function finishedUploadsError (error) {
   return {
     type: types.FINISHED_UPLOADS_ERROR,
-    payload: {
-      error: error
-    },
+    payload: error,
     error: true
   }
 }
@@ -29,10 +25,10 @@ export function finishedUploadsError (error) {
 export function getFinishedUploads () {
   return dispatch => {
     dispatch(requestFinishedUploads())
-    let url = '/api/v1/file/'
+    const url = '/api/v1/file/'
 
     return new Promise((resolve, reject) => {
-      let xhr = new XMLHttpRequest()
+      const xhr = new XMLHttpRequest()
 
       xhr.onload = () => {
         if (xhr.readyState === XMLHttpRequest.DONE) {
@@ -47,10 +43,8 @@ export function getFinishedUploads () {
       xhr.open('get', url, true)
       xhr.setRequestHeader('accept', '*/*')
       xhr.send()
-    }).then(
-      (response) => dispatch(receiveFinishedUploads(response),
-        (error) => dispatch(finishedUploadsError(error))
-      ).catch((error) => dispatch(finishedUploadsError(error)))
-    )
+    }).then((response) => dispatch(receiveFinishedUploads(response),
+      (error) => dispatch(finishedUploadsError(error)))
+    ).catch((error) => dispatch(finishedUploadsError(error)))
   }
 }

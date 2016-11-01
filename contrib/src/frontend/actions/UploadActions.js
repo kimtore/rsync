@@ -4,30 +4,21 @@ import * as types from '../constants/ActionTypes'
 export function startUpload (id, file) {
   return {
     type: types.UPLOAD_STARTED,
-    payload: {
-      id: id,
-      file: file
-    }
+    payload: { id, file }
   }
 }
 
-export function uploadFinished (id, response) {
+export function uploadFinished (id, finishedUpload) {
   return {
     type: types.UPLOAD_SUCCESS,
-    payload: {
-      id: id,
-      response: response
-    }
+    payload: { id, finishedUpload }
   }
 }
 
 export function uploadError (id, error) {
   return {
     type: types.UPLOAD_ERROR,
-    payload: {
-      id: id,
-      error: error
-    },
+    payload: { id, error },
     error: true
   }
 }
@@ -44,12 +35,12 @@ export function uploadProgress (id, progress) {
 
 export function uploadFile (file) {
   return dispatch => {
-    let id = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 8)
+    const id = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 8)
     dispatch(startUpload(id, file))
-    let url = '/api/v1/file/'
+    const url = '/api/v1/file/'
 
     return new Promise((resolve, reject) => {
-      let xhr = new XMLHttpRequest()
+      const xhr = new XMLHttpRequest()
 
       let nextTenthOfSecond = 0
       xhr.upload.onprogress = event => {
@@ -70,13 +61,11 @@ export function uploadFile (file) {
       }
       xhr.open('post', url, true)
       xhr.setRequestHeader('accept', '*/*')
-      let formData = new FormData()
+      const formData = new FormData()
       formData.append('file', file)
       xhr.send(formData)
-    }).then(
-      (response) => dispatch(uploadFinished(id, response),
-        (error) => dispatch(uploadError(id, error))
-      ).catch((error) => dispatch(finishedUploadsError(error)))
-    )
+    }).then((response) => dispatch(uploadFinished(id, response),
+      (error) => dispatch(uploadError(id, error)))
+    ).catch((error) => dispatch(uploadError(error)))
   }
 }

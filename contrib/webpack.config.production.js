@@ -39,14 +39,12 @@ module.exports = {
       {
         test: /\.scss$/,
         loader: ExtractTextPlugin.extract('css!sass'),
-        include: path.join(__dirname, 'src/sass'),
-        exclude: /(node_modules|bower_components)/
+        include: path.join(__dirname, 'src/sass')
       },
       {
         test: /\.js$/,
         loader: 'babel',
-        include: path.join(__dirname, 'src/frontend'),
-        exclude: /(node_modules|bower_components)/
+        include: path.join(__dirname, 'src/frontend')
       }
     ]
   }

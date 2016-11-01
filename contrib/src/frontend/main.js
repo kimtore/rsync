@@ -1,5 +1,8 @@
 import '../sass/master.scss'
+import React from 'react'
 import ReactDOM from 'react-dom'
-import routes from './routes'
+import App from './containers/App'
+import { Provider } from 'react-redux'
+import store from './store'
 
-ReactDOM.render(routes, document.getElementById('app'))
+ReactDOM.render(<Provider store={store}><App /></Provider>, document.getElementById('app'))

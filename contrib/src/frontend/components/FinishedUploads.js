@@ -1,47 +1,36 @@
 import React, { PropTypes } from 'react'
 import FinishedUpload from './FinishedUpload'
+import times from '../utils/times'
 
-export default React.createClass({
-  propTypes: {
-    finishedUploads: PropTypes.array.isRequired
-  },
-  renderEmpty () {
-    let emptyRows = []
-    for (let i = 0; i < 5 - this.props.finishedUploads.length; i++) {
-      emptyRows.push(
+const FinishedUploads = ({ finishedUploads }) => (
+  <div>
+    <table className="ui celled table">
+      <thead>
+      <tr>
+        <th>File</th>
+        <th>Expiry</th>
+        <th>URL</th>
+        <th>Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      {finishedUploads.map(finishedUpload =>
+        <FinishedUpload key={finishedUpload.slug} finishedUpload={finishedUpload} />)}
+      {times(5 - finishedUploads.length, i => (
         <tr key={i}>
-          <td />
-          <td />
-          <td />
-          <td />
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
         </tr>
-      )
-    }
-    return emptyRows
-  },
-  render () {
-    return (
-      <div>
-        <table className='ui celled table'>
-          <thead>
-          <tr>
-            <th>File</th>
-            <th>Expiry</th>
-            <th>URL</th>
-            <th>Actions</th>
-          </tr>
-          </thead>
-          <tbody>
-          {this.props.finishedUploads.map(finishedUpload => {
-            return (
-              <FinishedUpload key={finishedUpload.slug} finishedUpload={finishedUpload}/>
-            )
-          })}
-          {this.renderEmpty()}
-          </tbody>
-        </table>
-      </div>
-    )
-  }
-})
+      ))}
+      </tbody>
+    </table>
+  </div>
+)
 
+FinishedUploads.propTypes = {
+  finishedUploads: PropTypes.array.isRequired
+}
+
+export default FinishedUploads
