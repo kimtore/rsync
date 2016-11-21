@@ -9,9 +9,6 @@ install:
 frontend-deps:
 	cd contrib/ && npm install
 
-frontend-dev:
-	cd contrib/ && npm run djangobuild
-
 frontend:
 	cd contrib/ && npm run prodbuild
 	cp contrib/public/dist/bundle.min.js web/core/static/dist/bundle.js
