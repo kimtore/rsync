@@ -9,7 +9,12 @@ install:
 frontend-deps:
 	cd contrib/ && npm install
 
-frontend:
+frontend-dev:
 	cd contrib/ && npm run djangobuild
+
+frontend:
+	cd contrib/ && npm run prodbuild
+	cp contrib/public/dist/bundle.min.js web/core/static/dist/bundle.js
+	cp contrib/public/dist/master.css web/core/static/dist/
 
 .PHONY: virtualenv install frontend-deps frontend all
