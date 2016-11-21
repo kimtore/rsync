@@ -5,6 +5,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 module.exports = {
   devtool: 'cheap-module-source-map',
   entry: [
+    'react-hot-loader/patch',
     'es5-shim',
     'babel-polyfill',
     'webpack-hot-middleware/client',
@@ -38,7 +39,7 @@ module.exports = {
       },
       {
         test: /\.js$/,
-        loader: 'babel',
+        loaders: ['babel'],
         include: path.join(__dirname, 'src/frontend')
       }
     ]

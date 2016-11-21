@@ -15,7 +15,6 @@ module.exports = {
     publicPath: '/dist/'
   },
   plugins: [
-    new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.NoErrorsPlugin(),
     new webpack.DefinePlugin({
       'process.env': {
@@ -28,7 +27,7 @@ module.exports = {
         warnings: false
       }
     }),
-    new ExtractTextPlugin('master.css', { allChunks: true }),
+    new ExtractTextPlugin({ filename: 'master.css', allChunks: true }),
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: 'index.template.html'

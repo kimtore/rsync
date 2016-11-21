@@ -1,5 +1,6 @@
 /* global XMLHttpRequest FormData */
 import * as types from '../constants/ActionTypes'
+import generateId from '../utils/generateId'
 
 export function startUpload (id, file) {
   return {
@@ -35,7 +36,7 @@ export function uploadProgress (id, progress) {
 
 export function uploadFile (file) {
   return dispatch => {
-    const id = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 8)
+    const id = generateId()
     dispatch(startUpload(id, file))
     const url = '/api/v1/file/'
 

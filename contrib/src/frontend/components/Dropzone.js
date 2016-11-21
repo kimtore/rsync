@@ -3,13 +3,6 @@ import autobind from 'autobind-decorator'
 
 @autobind
 class Dropzone extends React.Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-      isDragOver: false
-    }
-  }
-
   componentWillMount () {
     document.body.addEventListener('dragover', this.handleDragOver)
     document.body.addEventListener('drop', this.handleDrop)
@@ -23,20 +16,20 @@ class Dropzone extends React.Component {
   handleDragLeave (event) {
     event.stopPropagation()
     event.preventDefault()
-    this.setState({ isDragOver: false })
+    this.props.endDragOver()
   }
 
   handleDragOver (event) {
     event.stopPropagation()
     event.preventDefault()
-    this.setState({ isDragOver: true })
+    this.props.startDragOver()
     event.dataTransfer.dropEffect = 'copy'
   }
 
   handleDrop (event) {
     event.stopPropagation()
     event.preventDefault()
-    this.setState({ isDragOver: false })
+    this.props.endDragOver()
     const files = event.dataTransfer ? event.dataTransfer.files : event.target.files
     for (let i = 0; i < files.length; i++) {
       this.props.uploadFile(files[ i ])
@@ -62,7 +55,7 @@ class Dropzone extends React.Component {
         </div>
         <input ref={(element) => { this.fileInput = element }} onChange={this.handleDrop} type="file"
                style={{display: 'none'}} multiple />
-        {this.state.isDragOver ? <div onDragLeave={this.handleDragLeave} className="dragOver">
+        {this.props.dragOver ? <div onDragLeave={this.handleDragLeave} className="dragOver">
           <div className="dragOverContent">+</div>
         </div> : null}
       </div>
@@ -71,7 +64,10 @@ class Dropzone extends React.Component {
 }
 
 Dropzone.propTypes = {
-  uploadFile: PropTypes.func.isRequired
+  uploadFile: PropTypes.func.isRequired,
+  startDragOver: PropTypes.func.isRequired,
+  endDragOver: PropTypes.func.isRequired,
+  dragOver: PropTypes.bool.isRequired
 }
 
 export default Dropzone
