@@ -6,11 +6,13 @@
     <head>
         <title>rsync.no</title>
         <meta charset="utf-8" />
+        <link rel="stylesheet" href="{% static "css/semantic.css" %}" />
         <link rel="stylesheet" href="{% static "css/style.css" %}" />
     </head>
     <body>
-        <h1>rsync.no</h1>
-        {% block content %}
-        {% endblock %}
+        <div class="ui text container">
+            {% block content %}
+            {% endblock %}
+        </div>
     </body>
 <h1>

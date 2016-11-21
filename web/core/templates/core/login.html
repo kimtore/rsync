@@ -2,21 +2,26 @@
 
 {% block content %}
 
+    <h1 class="ui center aligned icon header">
+        <i class="circular cloud icon"></i>
+        Insert coin to start
+    </h1>
+
     {% if request.method == "POST" %}
         <div>Invalid username or password.</div>
     {% endif %}
 
-    <form method="post">
+    <form method="post" class="ui form">
         {% csrf_token %}
-        <div>
+        <div class="field">
             <label for="username">Username</label>
             <input type="text" name="username" />
         </div>
-        <div>
+        <div class="field">
             <label for="password">Password</label>
             <input type="password" name="password" />
         </div>
-        <button type="submit">Login</button>
+        <button class="ui button" type="submit">Login</button>
     </form>
 
 {% endblock %}
