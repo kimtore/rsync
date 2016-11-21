@@ -9,7 +9,7 @@ class CopyLink extends React.Component {
   }
 
   render () {
-    return <a className="copyToClipboard" onClick={this.handleClick}>Copy to clipboard</a>
+    return <a className="copyToClipboard" onClick={this.handleClick}>Copy URL to clipboard</a>
   }
 }
 
