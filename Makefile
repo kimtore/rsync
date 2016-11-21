@@ -11,6 +11,7 @@ frontend-deps:
 
 frontend:
 	cd contrib/ && npm run prodbuild
+	mkdir -p web/core/static/dist
 	cp contrib/public/dist/bundle.min.js web/core/static/dist/bundle.js
 	cp contrib/public/dist/master.css web/core/static/dist/
 
