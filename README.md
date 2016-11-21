@@ -14,9 +14,7 @@ ln -s /path/to/storage files
 Set up a virtualenv and install the dependencies:
 
 ```
-virtualenv deps
-source deps/bin/activate
-pip install -e .
+make virtualenv install
 python setup.py develop
 ```
 
@@ -41,6 +39,16 @@ Start the web server:
 ```
 
 The server is now running on http://localhost:8000.
+
+## Deploying
+
+The frontend requires NodeJS >= 7.x in order to build correctly.
+
+Execute `make` in the top-level directory:
+
+```
+make
+```
 
 ## Admin interface
 
