@@ -16,7 +16,6 @@ export default (initialState) => {
     ))
 
   if (module.hot) {
-    console.log("HOT HOT HOT")
     module.hot.accept('../reducers', () => {
       store.replaceReducer(require('../reducers').default)
     })

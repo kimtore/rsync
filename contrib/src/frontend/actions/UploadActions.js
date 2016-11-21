@@ -1,6 +1,7 @@
 /* global XMLHttpRequest FormData */
 import * as types from '../constants/ActionTypes'
 import generateId from '../utils/generateId'
+import getCookie from '../utils/getCookie'
 
 export function startUpload (id, file) {
   return {
@@ -62,6 +63,7 @@ export function uploadFile (file) {
       }
       xhr.open('post', url, true)
       xhr.setRequestHeader('accept', '*/*')
+      xhr.setRequestHeader('X-CSRFToken', getCookie('csrftoken'))
       const formData = new FormData()
       formData.append('file', file)
       xhr.send(formData)

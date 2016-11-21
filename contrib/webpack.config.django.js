@@ -10,7 +10,7 @@ module.exports = {
   ],
   output: {
     filename: 'bundle.js',
-    path: path.join(__dirname, '..', 'web', 'core', 'static', 'dist'),
+    path: path.join(__dirname, '..', 'web', 'core', 'static', 'dist')
   },
   plugins: [
     new webpack.NoErrorsPlugin()
