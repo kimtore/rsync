@@ -14,8 +14,9 @@ ReactDOM.render(
 
 if (module.hot) {
   module.hot.accept('./containers/App', () => {
+    const NewApp = require('./containers/App').default
     ReactDOM.render(
-      <AppContainer><App store={store} /></AppContainer>,
+      <AppContainer><NewApp store={store} /></AppContainer>,
       document.getElementById('app')
     )
   })
