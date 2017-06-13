@@ -1,7 +1,7 @@
 all: virtualenv install frontend-deps frontend
 
 virtualenv:
-	virtualenv -p python2 deps
+	virtualenv -p python2.7 deps
 
 install:
 	deps/bin/pip install -e .
