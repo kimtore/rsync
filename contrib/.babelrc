@@ -1,19 +1,29 @@
 {
   "presets": [
-    "es2015",
+    [
+      "latest",
+      {
+        "es2015": {
+          "modules": false
+        }
+      }
+    ],
     "stage-2",
     "react"
   ],
   "plugins": [
-    "array-includes",
     "transform-decorators-legacy"
   ],
   "env": {
     "development": {
       "plugins": [
-        [
-          "react-hot-loader/babel"
-        ]
+        "react-hot-loader/babel"
+      ]
+    },
+    "production": {
+      "plugins": [
+        "transform-react-constant-elements",
+        "transform-react-inline-elements"
       ]
     }
   }

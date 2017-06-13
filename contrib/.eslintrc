@@ -8,12 +8,13 @@
     "standard-react"
   ],
   "rules": {
-    "react/jsx-no-bind": [
-      2,
-      {
-        "ignoreRefs": true
-      }
-    ],
+//    "react/jsx-no-bind": [
+//      2,
+//      {
+//        "ignoreRefs": true
+//      }
+//    ],
+    "react/jsx-no-bind": 0,
     "prefer-template": 2,
     "react/jsx-indent-props": 0,
     "react/jsx-indent": 0,
@@ -30,6 +31,8 @@
         "allowNamedFunctions": true
       }
     ],
-    "arrow-parens": 0
+    "arrow-parens": 0,
+    "space-before-function-paren": 0,
+    "indent": 0
   }
 }

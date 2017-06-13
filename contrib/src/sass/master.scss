@@ -18,10 +18,40 @@
   line-height: 100%;
 }
 
-.copyToClipboard {
+a {
+  cursor: pointer;
+}
+
+.upload-header {
   cursor: pointer;
 }
 
 body {
   margin: 1em;
 }
+
+.uploads {
+  margin-bottom: 14px;
+}
+
+.ui.progress:last-child {
+  margin-bottom: 0px;
+}
+
+.finished-uploads {
+  margin-bottom: 14px;
+}
+
+/*
+.uploads tbody tr {
+  display: flex;
+}
+
+.uploads tbody td:nth-of-type(2) {
+ flex-grow: 1;
+}
+
+.uploads table {
+  width: 100%;
+}
+*/

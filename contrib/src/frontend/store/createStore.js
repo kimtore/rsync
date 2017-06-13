@@ -1,23 +1,22 @@
 import thunkMiddleware from 'redux-thunk'
-import { createStore, applyMiddleware } from 'redux'
-import createLogger from 'redux-logger'
+import { applyMiddleware, createStore } from 'redux'
+import { createLogger } from 'redux-logger'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import rootReducer from '../reducers'
 
 const loggerMiddleware = createLogger()
 const middleware = [thunkMiddleware, loggerMiddleware]
 
-export default (initialState) => {
+export default initialState => {
   const store = createStore(
     rootReducer,
     initialState,
-    composeWithDevTools(
-      applyMiddleware(...middleware)
-    ))
+    composeWithDevTools(applyMiddleware(...middleware))
+  )
 
   if (module.hot) {
     module.hot.accept('../reducers', () => {
-      store.replaceReducer(require('../reducers').default)
+      store.replaceReducer(rootReducer)
     })
   }
 

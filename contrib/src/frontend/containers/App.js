@@ -1,62 +1,55 @@
-import React, { PropTypes } from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as UploadActions from '../actions/UploadActions'
 import * as FinishedUploadActions from '../actions/FinishedUploadsActions'
-import * as DragOverActions from '../actions/DragOverActions'
 import FinishedUploads from '../components/FinishedUploads'
 import Uploads from '../components/Uploads'
-import Dropzone from '../components/Dropzone'
+import DropZone from '../components/DropZone'
 
 class App extends React.Component {
-  componentWillMount () {
+  componentWillMount() {
     this.props.finishedUploadActions.getFinishedUploads()
   }
 
-  render () {
-    const { uploadActions, dragOverActions, dragOver, uploads, finishedUploads } = this.props
+  render() {
+    const { uploadActions, uploads, finishedUploads } = this.props
+
     return (
       <div>
-        <Dropzone uploadFile={uploadActions.uploadFile}
-                  startDragOver={dragOverActions.startDragOver}
-                  endDragOver={dragOverActions.endDragOver}
-                  dragOver={dragOver}
+        <DropZone uploadFile={uploadActions.uploadFile} />
+        <Uploads
+          uploads={uploads}
+          abortUpload={uploadActions.abortUpload}
+          removeUpload={uploadActions.removeUpload}
         />
-        <Uploads uploads={uploads} />
-        <FinishedUploads finishedUploads={finishedUploads} />
+        <FinishedUploads
+          finishedUploads={finishedUploads}
+          deleteUpload={uploadActions.deleteUpload}
+        />
+        <a className="ui button" href="/logout/">Logout</a>
       </div>
     )
   }
 }
 
 App.propTypes = {
-  dispatch: PropTypes.func.isRequired,
   uploadActions: PropTypes.object.isRequired,
   finishedUploadActions: PropTypes.object.isRequired,
-  dragOverActions: PropTypes.object.isRequired,
   uploads: PropTypes.array.isRequired,
-  finishedUploads: PropTypes.array.isRequired,
-  dragOver: PropTypes.bool.isRequired
+  finishedUploads: PropTypes.array.isRequired
 }
 
-function mapStateToProps (state) {
-  return {
-    uploads: state.uploads,
-    finishedUploads: state.finishedUploads,
-    dragOver: state.dragOver
-  }
-}
+const mapStateToProps = state => ({
+  uploads: state.uploads,
+  finishedUploads: state.finishedUploads,
+  dragOver: state.dragOver
+})
 
-function mapDispatchToProps (dispatch) {
-  return {
-    dispatch: dispatch,
-    uploadActions: bindActionCreators(UploadActions, dispatch),
-    finishedUploadActions: bindActionCreators(FinishedUploadActions, dispatch),
-    dragOverActions: bindActionCreators(DragOverActions, dispatch)
-  }
-}
+const mapDispatchToProps = dispatch => ({
+  uploadActions: bindActionCreators(UploadActions, dispatch),
+  finishedUploadActions: bindActionCreators(FinishedUploadActions, dispatch)
+})
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(App)
+export default connect(mapStateToProps, mapDispatchToProps)(App)

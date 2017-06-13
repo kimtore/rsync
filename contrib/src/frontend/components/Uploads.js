@@ -1,14 +1,39 @@
-import React, { PropTypes } from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 import Upload from './Upload'
+import MediaQuery from 'react-responsive'
 
-const Uploads = ({ uploads }) => (
-  <div>
-    {uploads.map(upload => <Upload key={upload.id} upload={upload} />)}
+const Uploads = ({ uploads, abortUpload, removeUpload }) =>
+  <div className="uploads">
+    {uploads.length > 0 &&
+      <table className="ui celled table">
+        <MediaQuery minWidth={768}>
+          <thead>
+            <tr>
+              <th>File</th>
+              <th>Progress</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+        </MediaQuery>
+        <tbody>
+          {uploads.map(upload =>
+            <Upload
+              key={upload.id}
+              upload={upload}
+              abortUpload={abortUpload}
+              removeUpload={removeUpload}
+            />
+          )}
+        </tbody>
+      </table>}
   </div>
-)
 
 Uploads.propTypes = {
-  uploads: PropTypes.array.isRequired
+  uploads: PropTypes.array.isRequired,
+  abortUpload: PropTypes.func.isRequired,
+  removeUpload: PropTypes.func.isRequired
 }
 
 export default Uploads

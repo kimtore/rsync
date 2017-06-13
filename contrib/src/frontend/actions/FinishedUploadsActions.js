@@ -1,50 +1,49 @@
 /* global XMLHttpRequest */
+import Credentials from '../constants/Credentials'
 import * as types from '../constants/ActionTypes'
 
-export function requestFinishedUploads () {
-  return {
-    type: types.REQUEST_FINISHED_UPLOADS
-  }
-}
+export const requestFinishedUploads = () => ({
+  type: types.REQUEST_FINISHED_UPLOADS
+})
 
-export function receiveFinishedUploads (finishedUploads) {
-  return {
-    type: types.RECEIVE_FINISHED_UPLOADS,
-    payload: { finishedUploads }
-  }
-}
+export const receiveFinishedUploads = finishedUploads => ({
+  type: types.RECEIVE_FINISHED_UPLOADS,
+  payload: { finishedUploads }
+})
 
-export function finishedUploadsError (error) {
-  return {
-    type: types.FINISHED_UPLOADS_ERROR,
-    payload: error,
-    error: true
-  }
-}
+export const finishedUploadsError = error => ({
+  type: types.FINISHED_UPLOADS_ERROR,
+  payload: error,
+  error: true
+})
 
-export function getFinishedUploads () {
-  return dispatch => {
-    dispatch(requestFinishedUploads())
-    const url = '/api/v1/file/'
+export const getFinishedUploads = () => dispatch => {
+  dispatch(requestFinishedUploads())
+  const url = `/api/v1/file/${Credentials.USER && Credentials.API_KEY
+    ? `?username=${Credentials.USER}&api_key=${Credentials.API_KEY}`
+    : ''}`
 
-    return new Promise((resolve, reject) => {
-      const xhr = new XMLHttpRequest()
+  return new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest()
 
-      xhr.onload = () => {
-        if (xhr.readyState === XMLHttpRequest.DONE) {
-          resolve(JSON.parse(xhr.response).objects.reverse())
-        } else {
-          reject(Error(xhr.statusText))
-        }
+    xhr.onload = () => {
+      if (xhr.readyState === XMLHttpRequest.DONE) {
+        resolve(
+          JSON.parse(xhr.response)
+            .objects.reverse()
+            .filter(finishedUpload => finishedUpload.file)
+        )
+      } else {
+        reject(Error(xhr.statusText))
       }
-      xhr.onerror = function () {
-        reject(Error('Network error'))
-      }
-      xhr.open('get', url, true)
-      xhr.setRequestHeader('accept', '*/*')
-      xhr.send()
-    }).then((response) => dispatch(receiveFinishedUploads(response),
-      (error) => dispatch(finishedUploadsError(error)))
-    ).catch((error) => dispatch(finishedUploadsError(error)))
-  }
+    }
+    xhr.onerror = () => {
+      reject(Error('Network error'))
+    }
+    xhr.open('get', url, true)
+    xhr.setRequestHeader('accept', '*/*')
+    xhr.send()
+  })
+    .then(response => dispatch(receiveFinishedUploads(response)))
+    .catch(error => dispatch(finishedUploadsError(error)))
 }

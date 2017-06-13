@@ -1,15 +1,20 @@
-import React, { PropTypes } from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 import autobind from 'autobind-decorator'
 import copy from 'copy-to-clipboard'
 
 @autobind
 class CopyLink extends React.Component {
-  handleClick () {
+  handleClick() {
     copy(this.props.url)
   }
 
-  render () {
-    return <a className="copyToClipboard" onClick={this.handleClick}>Copy URL to clipboard</a>
+  render() {
+    return (
+      <a className="copyToClipboard" onClick={this.handleClick}>
+        Copy URL to clipboard
+      </a>
+    )
   }
 }
 
