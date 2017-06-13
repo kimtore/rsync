@@ -124,6 +124,7 @@ export const deleteUpload = id => dispatch => {
     }
     xhr.open('delete', url, true)
     xhr.setRequestHeader('accept', '*/*')
+    xhr.setRequestHeader('X-CSRFToken', getCookie('csrftoken'))
     xhr.send()
   })
     .then(() => dispatch(uploadDeleted(id)))
