@@ -1,28 +1,11 @@
 /* global XMLHttpRequest */
 import Credentials from '../constants/Credentials'
-import * as types from '../constants/ActionTypes'
+import { Upload } from '../store/UploadsStore'
 
-export const requestFinishedUploads = () => ({
-  type: types.REQUEST_FINISHED_UPLOADS
-})
-
-export const receiveFinishedUploads = finishedUploads => ({
-  type: types.RECEIVE_FINISHED_UPLOADS,
-  payload: { finishedUploads }
-})
-
-export const finishedUploadsError = error => ({
-  type: types.FINISHED_UPLOADS_ERROR,
-  payload: error,
-  error: true
-})
-
-export const getFinishedUploads = () => dispatch => {
-  dispatch(requestFinishedUploads())
+export const getFinishedUploads = store => {
   const url = `/api/v1/file/${Credentials.USER && Credentials.API_KEY
     ? `?username=${Credentials.USER}&api_key=${Credentials.API_KEY}`
     : ''}`
-
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest()
 
@@ -32,6 +15,15 @@ export const getFinishedUploads = () => dispatch => {
           JSON.parse(xhr.response)
             .objects.reverse()
             .filter(finishedUpload => finishedUpload.file)
+            .map(
+              finishedUpload =>
+                new Upload({
+                  ...finishedUpload,
+                  filename: finishedUpload.file,
+                  status: 'Finished',
+                  store
+                })
+            )
         )
       } else {
         reject(Error(xhr.statusText))
@@ -44,6 +36,6 @@ export const getFinishedUploads = () => dispatch => {
     xhr.setRequestHeader('accept', '*/*')
     xhr.send()
   })
-    .then(response => dispatch(receiveFinishedUploads(response)))
-    .catch(error => dispatch(finishedUploadsError(error)))
 }
+
+export default getFinishedUploads

@@ -1,7 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import autobind from 'autobind-decorator'
+import { observer } from 'mobx-react'
 
+@observer
 @autobind
 class DropZone extends React.Component {
   constructor(...args) {
@@ -60,9 +62,7 @@ class DropZone extends React.Component {
         >
           <i className="cloud upload icon" />
           <div className="content">
-            <div className="header">
-              Click here to select files to upload
-            </div>
+            <div className="header">Click here to select files to upload</div>
             <p>Or simply drag them to the browser window</p>
           </div>
         </div>

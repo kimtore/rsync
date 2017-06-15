@@ -2,8 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Upload from './Upload'
 import MediaQuery from 'react-responsive'
+import { observer } from 'mobx-react'
 
-const Uploads = ({ uploads, abortUpload, removeUpload }) =>
+const Uploads = observer(({ uploads }) =>
   <div className="uploads">
     {uploads.length > 0 &&
       <table className="ui celled table">
@@ -18,22 +19,14 @@ const Uploads = ({ uploads, abortUpload, removeUpload }) =>
           </thead>
         </MediaQuery>
         <tbody>
-          {uploads.map(upload =>
-            <Upload
-              key={upload.id}
-              upload={upload}
-              abortUpload={abortUpload}
-              removeUpload={removeUpload}
-            />
-          )}
+          {uploads.map(upload => <Upload key={upload.id} upload={upload} />)}
         </tbody>
       </table>}
   </div>
+)
 
 Uploads.propTypes = {
-  uploads: PropTypes.array.isRequired,
-  abortUpload: PropTypes.func.isRequired,
-  removeUpload: PropTypes.func.isRequired
+  uploads: PropTypes.array.isRequired
 }
 
 export default Uploads

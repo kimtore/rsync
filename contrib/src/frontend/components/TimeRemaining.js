@@ -30,8 +30,18 @@ class TimeRemaining extends React.Component {
   }
 
   getExpiryString(expiry) {
-    const decimalHours = Math.abs(new Date(`${expiry}Z`) - new Date()) / 3.6e6
+    const dateDiff = new Date(`${expiry}Z`) - new Date()
+    if (dateDiff <= 0) {
+      return 'Expired'
+    }
+    const decimalHours = Math.abs(dateDiff) / 3.6e6
+    const days = Math.floor(decimalHours / 24)
     const hours = Math.floor(decimalHours)
+    if (days > 7) {
+      return new Date(`${expiry}Z`).toISOString().slice(0, 10)
+    } else if (days > 2) {
+      return `${days}d ${hours}h`
+    }
     const minutes = Math.floor((decimalHours - hours) * 60)
     if (minutes > 0 && hours > 0) {
       return `${hours}h ${minutes}m`
@@ -39,14 +49,21 @@ class TimeRemaining extends React.Component {
       return `${minutes}m`
     } else {
       const seconds = Math.floor(((decimalHours - hours) * 60 - minutes) * 60)
-      // TODO: If expired, update list.
-      return `${seconds}s`
+      if (seconds > 0) {
+        return `${seconds}s`
+      } else {
+        return 'Expired'
+      }
     }
   }
 
   render() {
     const { expiryString } = this.state
-    return <span>{expiryString}</span>
+    return (
+      <span>
+        {expiryString}
+      </span>
+    )
   }
 }
 

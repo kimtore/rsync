@@ -1,55 +1,40 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
-import * as UploadActions from '../actions/UploadActions'
-import * as FinishedUploadActions from '../actions/FinishedUploadsActions'
+import { observer, PropTypes } from 'mobx-react'
 import FinishedUploads from '../components/FinishedUploads'
 import Uploads from '../components/Uploads'
 import DropZone from '../components/DropZone'
 
+@observer
 class App extends React.Component {
-  componentWillMount() {
-    this.props.finishedUploadActions.getFinishedUploads()
+  renderDevTools() {
+    if (window.location.hash === '#devtools') {
+      const DevTools = require('mobx-react-devtools').default
+      return <DevTools />
+    }
   }
-
   render() {
-    const { uploadActions, uploads, finishedUploads } = this.props
+    const {
+      store: { uploadFile, uploadsInProgress, finishedUploads }
+    } = this.props
 
     return (
       <div>
-        <DropZone uploadFile={uploadActions.uploadFile} />
-        <Uploads
-          uploads={uploads}
-          abortUpload={uploadActions.abortUpload}
-          removeUpload={uploadActions.removeUpload}
-        />
-        <FinishedUploads
-          finishedUploads={finishedUploads}
-          deleteUpload={uploadActions.deleteUpload}
-        />
-        <a className="ui button" href="/logout/">Logout</a>
+        <DropZone uploadFile={uploadFile} />
+        <Uploads uploads={uploadsInProgress} />
+        <FinishedUploads finishedUploads={finishedUploads} />
+        <footer className="footer">
+          <a className="ui button" href="/logout/">
+            Logout
+          </a>
+        </footer>
+        {process.env.NODE_ENV !== 'production' && this.renderDevTools()}
       </div>
     )
   }
 }
 
 App.propTypes = {
-  uploadActions: PropTypes.object.isRequired,
-  finishedUploadActions: PropTypes.object.isRequired,
-  uploads: PropTypes.array.isRequired,
-  finishedUploads: PropTypes.array.isRequired
+  store: PropTypes.observableObject
 }
 
-const mapStateToProps = state => ({
-  uploads: state.uploads,
-  finishedUploads: state.finishedUploads,
-  dragOver: state.dragOver
-})
-
-const mapDispatchToProps = dispatch => ({
-  uploadActions: bindActionCreators(UploadActions, dispatch),
-  finishedUploadActions: bindActionCreators(FinishedUploadActions, dispatch)
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(App)
+export default App

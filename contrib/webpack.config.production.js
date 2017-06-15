@@ -21,6 +21,7 @@ module.exports = {
       API_KEY: JSON.stringify(process.env.API_KEY),
       USER: JSON.stringify(process.env.USER)
     }),
+    new webpack.IgnorePlugin(/(mobx-logger|mobx-react-devtools)/),
     new webpack.optimize.UglifyJsPlugin({
       compressor: {
         warnings: false

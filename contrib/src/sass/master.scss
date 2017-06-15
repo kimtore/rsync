@@ -22,12 +22,8 @@ a {
   cursor: pointer;
 }
 
-.upload-header {
-  cursor: pointer;
-}
-
 body {
-  margin: 1em;
+  margin: 14px;
 }
 
 .uploads {
@@ -42,3 +38,7 @@ body {
   margin-bottom: 14px;
 }
 
+.footer {
+  display: flex;
+  justify-content: flex-end;
+}
