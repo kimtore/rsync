@@ -8,3 +8,9 @@ class FileAdmin(admin.ModelAdmin):
     readonly_fields = ['id', 'slug']
     ordering = ['-created']
     fields = ['author', 'file', 'expiry']
+
+@admin.register(web.core.models.Option)
+class OptionAdmin(admin.ModelAdmin):
+    list_display = ['id', 'author', 'key', 'value']
+    ordering = ['author', 'key']
+    readonly_fields = ['id']

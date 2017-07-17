@@ -24,6 +24,7 @@ import web.core.api.resources
 
 v1_api = tastypie.api.Api(api_name='v1')
 v1_api.register(web.core.api.resources.FileResource())
+v1_api.register(web.core.api.resources.OptionResource())
 
 urlpatterns = [
     url(r'^$', web.core.views.frontend),

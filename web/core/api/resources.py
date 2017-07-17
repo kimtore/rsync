@@ -7,6 +7,7 @@ import django.contrib.auth.models
 import web.core.models
 import web.core.api.authorization
 
+
 class FileResource(tastypie.resources.ModelResource):
     url = tastypie.fields.CharField(attribute='url', readonly=True)
 
@@ -38,3 +39,22 @@ class FileResource(tastypie.resources.ModelResource):
             return data
 
         return super(FileResource, self).deserialize(request, data, format)
+
+
+class OptionResource(tastypie.resources.ModelResource):
+    """
+    OptionResource exposes user options through the API.
+    """
+    class Meta:
+        queryset = web.core.models.Option.objects.all()
+        allowed_methods = ['get', 'post', 'put', 'patch', 'delete']
+        always_return_data = True
+        authentication = tastypie.authentication.MultiAuthentication(
+            tastypie.authentication.SessionAuthentication(),
+            tastypie.authentication.ApiKeyAuthentication()
+        )
+        authorization = web.core.api.authorization.UserObjectsOnlyAuthorization()
+
+    def hydrate(self, bundle, request=None):
+        bundle.obj.author = django.contrib.auth.models.User.objects.get(pk=bundle.request.user.id)
+        return bundle

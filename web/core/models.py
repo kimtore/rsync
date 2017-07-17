@@ -12,6 +12,7 @@ import re
 import os
 import uuid
 
+
 class File(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     slug = models.CharField(max_length=64, default=web.core.random_slug_default_length, editable=False, unique=True)
@@ -42,6 +43,22 @@ class File(models.Model):
 
     def __unicode__(self):
         return self.file.name
+
+
+class Option(models.Model):
+    """
+    Option is a key/value store that stores serialized options on specific users.
+    """
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL)
+    key = models.CharField(max_length=128)
+    value = models.CharField(max_length=4096, null=True, blank=True)
+
+    class Meta:
+        unique_together = ('key', 'author')
+
+    def __unicode__(self):
+        return '%s=%s' % (self.key, self.value)
 
 
 @django.dispatch.dispatcher.receiver(django.db.models.signals.post_delete, sender=File)
