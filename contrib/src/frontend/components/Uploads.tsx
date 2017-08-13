@@ -1,10 +1,14 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import Upload from './Upload'
-import MediaQuery from 'react-responsive'
-import { observer } from 'mobx-react'
+import React from 'react';
+import Upload from './Upload';
+import MediaQuery from 'react-responsive';
+import { observer } from 'mobx-react';
+import { Upload as UploadModel } from '../store/UploadsStore';
 
-const Uploads = observer(({ uploads }) =>
+type Props = {
+  uploads: UploadModel[];
+};
+
+const Uploads: React.SFC<Props> = ({ uploads }) =>
   <div className="uploads">
     {uploads.length > 0 &&
       <table className="ui celled table">
@@ -22,11 +26,6 @@ const Uploads = observer(({ uploads }) =>
           {uploads.map(upload => <Upload key={upload.id} upload={upload} />)}
         </tbody>
       </table>}
-  </div>
-)
+  </div>;
 
-Uploads.propTypes = {
-  uploads: PropTypes.array.isRequired
-}
-
-export default Uploads
+export default observer(Uploads);

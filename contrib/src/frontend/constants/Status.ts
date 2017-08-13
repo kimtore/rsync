@@ -5,5 +5,5 @@ export default {
   FINISHING: 'Finishing',
   FINISHED: 'Finished',
   ABORTING: 'Aborting',
-  ABORTED: 'Aborted'
-}
+  ABORTED: 'Aborted',
+};
