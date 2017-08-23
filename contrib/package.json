@@ -3,10 +3,10 @@
   "version": "0.0.1",
   "description": "ManBearShare",
   "author": "Nicho",
-  "main": "src/frontend/main.js",
+  "main": "src/frontend/main.tsx",
   "repository": {
     "type": "git",
-    "url": "git.nicho@doomtech.net:~/repos/manbearshare.git"
+    "url": "https://github.com/ambientsound/rsync"
   },
   "directories": {
     "test": "test"
@@ -20,8 +20,8 @@
     "production": "npm run prodbuild && cross-env NODE_ENV=production node server.js"
   },
   "devDependencies": {
-    "@types/react": "16.0.2",
-    "@types/react-dom": "15.5.3",
+    "@types/react": "16.0.5",
+    "@types/react-dom": "15.5.4",
     "@types/react-responsive": "1.1.8",
     "@types/webpack-env": "1.13.0",
     "autobind-decorator": "2.1.0",
